@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stolen Hour Session Planner — She Builds Anyway</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #3B7A9A; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 700px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 2.5rem; }
+  .logo { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #E89B8A; margin-bottom: 12px; }
+  .header h1 { font-size: 32px; font-weight: 300; color: #FDFAF3; margin-bottom: 8px; }
+  .header p { font-size: 15px; color: rgba(253,250,243,0.65); line-height: 1.6; }
+  .card { background: rgba(253,250,243,0.07); border: 0.5px solid rgba(253,250,243,0.15); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section-label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #E89B8A; font-weight: 500; margin-bottom: 1rem; }
+  .field-wrap { margin-bottom: 1.25rem; }
+  .field-label { font-size: 13px; color: rgba(253,250,243,0.65); margin-bottom: 8px; display: block; }
+  .field-label span { color: #FDFAF3; font-weight: 500; }
+  .option-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .option-btn { padding: 8px 16px; border: 0.5px solid rgba(253,250,243,0.2); border-radius: 8px; background: rgba(253,250,243,0.06); color: rgba(253,250,243,0.65); font-size: 13px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .option-btn:hover { border-color: rgba(232,155,138,0.5); color: #FDFAF3; }
+  .option-btn.selected { border: 1.5px solid #E89B8A; background: rgba(232,155,138,0.15); color: #E89B8A; }
+  .text-input { width: 100%; padding: 10px 14px; border: 0.5px solid rgba(253,250,243,0.2); border-radius: 8px; background: rgba(253,250,243,0.06); color: #FDFAF3; font-size: 14px; font-family: inherit; }
+  .text-input:focus { outline: none; border-color: #E89B8A; }
+  .text-input::placeholder { color: rgba(253,250,243,0.35); }
+  .divider { border: none; border-top: 0.5px solid rgba(253,250,243,0.1); margin: 1.5rem 0; }
+  .plan-card { background: rgba(253,250,243,0.06); border: 0.5px solid rgba(253,250,243,0.12); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem; }
+  .plan-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(253,250,243,0.08); }
+  .plan-row:last-child { border-bottom: none; }
+  .plan-icon { font-size: 16px; color: #E89B8A; flex-shrink: 0; margin-top: 2px; }
+  .plan-label { font-size: 12px; color: rgba(253,250,243,0.5); min-width: 90px; }
+  .plan-value { font-size: 14px; color: #FDFAF3; font-weight: 500; }
+  .plan-value.empty { color: rgba(253,250,243,0.35); font-weight: 400; font-style: italic; }
+  .start-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border: 0.5px solid rgba(232,155,138,0.5); border-radius: 12px; background: rgba(232,155,138,0.12); color: #E89B8A; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s; margin-bottom: 1rem; font-family: inherit; }
+  .start-btn:hover { background: rgba(232,155,138,0.2); }
+  .start-btn i { font-size: 18px; }
+  .timer-wrap { text-align: center; padding: 2rem 1.5rem; background: rgba(253,250,243,0.06); border-radius: 12px; margin-bottom: 1.25rem; }
+  .timer-display { font-size: 56px; font-weight: 300; color: #FDFAF3; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .timer-label { font-size: 13px; color: rgba(253,250,243,0.55); margin-bottom: 1.25rem; }
+  .timer-btns { display: flex; gap: 10px; justify-content: center; }
+  .timer-btn { padding: 10px 24px; border: 0.5px solid rgba(253,250,243,0.2); border-radius: 8px; background: rgba(253,250,243,0.06); color: #FDFAF3; font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .timer-btn:hover { background: rgba(253,250,243,0.1); }
+  .done-box { background: rgba(232,155,138,0.15); border: 0.5px solid rgba(232,155,138,0.4); border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1.25rem; }
+  .done-title { font-size: 20px; font-weight: 500; color: #E89B8A; margin-bottom: 8px; }
+  .done-body { font-size: 14px; color: rgba(253,250,243,0.75); line-height: 1.6; }
+  .after-wrap { margin-bottom: 1.25rem; }
+  .after-label { font-size: 13px; color: rgba(253,250,243,0.65); margin-bottom: 8px; }
+  .after-input { width: 100%; padding: 10px 14px; border: 0.5px solid rgba(253,250,243,0.2); border-radius: 8px; background: rgba(253,250,243,0.06); color: #FDFAF3; font-size: 14px; font-family: inherit; resize: vertical; min-height: 80px; }
+  .after-input:focus { outline: none; border-color: #E89B8A; }
+  .after-input::placeholder { color: rgba(253,250,243,0.35); }
+  .cta-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border: 0.5px solid rgba(232,155,138,0.5); border-radius: 40px; background: rgba(232,155,138,0.1); color: #E89B8A; font-size: 14px; text-decoration: none; margin-bottom: 1rem; transition: all 0.15s; }
+  .cta-btn:hover { background: rgba(232,155,138,0.2); }
+  .reset-btn { font-size: 13px; color: rgba(253,250,243,0.45); background: none; border: none; cursor: pointer; text-decoration: underline; display: block; margin: 0 auto; font-family: inherit; }
+  .footer { text-align: center; margin-top: 2rem; font-size: 12px; color: rgba(253,250,243,0.3); }
+  .footer a { color: #E89B8A; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <p class="logo">She Builds Anyway</p>
+    <h1>Your Stolen Hour Session Planner</h1>
+    <p>Fill this in before you sit down. Then just start.</p>
+  </div>
+
+  <div id="plannerView">
+    <div class="card">
+      <p class="section-label">Build your session plan</p>
+
+      <div class="field-wrap">
+        <label class="field-label"><span>My pocket</span> — which stolen hour is this?</label>
+        <div class="option-row" id="pocketOpts">
+          <button class="option-btn" onclick="pick('pocket',this,'After bedtime')">After bedtime</button>
+          <button class="option-btn" onclick="pick('pocket',this,'Lunch break')">Lunch break</button>
+          <button class="option-btn" onclick="pick('pocket',this,'Before they wake up')">Before they wake up</button>
+          <button class="option-btn" onclick="pick('pocket',this,'Pickup line')">Pickup line</button>
+          <button class="option-btn" onclick="pick('pocket',this,'Nap time')">Nap time</button>
+          <button class="option-btn" onclick="pick('pocket',this,'Other')">Other</button>
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label"><span>My brain type</span> — what kind of energy do I have?</label>
+        <div class="option-row" id="brainOpts">
+          <button class="option-btn" onclick="pick('brain',this,'Peak — actually awake')">Peak — actually awake</button>
+          <button class="option-btn" onclick="pick('brain',this,'Dip — okay but slow')">Dip — okay but slow</button>
+          <button class="option-btn" onclick="pick('brain',this,'Wind down — running on empty')">Wind down — running on empty</button>
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label"><span>My one thing</span> — what am I working on?</label>
+        <input type="text" class="text-input" id="oneThing" placeholder="Write it here — be specific" oninput="updatePlan()" />
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label"><span>My ritual</span> — how do I signal it is building time?</label>
+        <div class="option-row" id="ritualOpts">
+          <button class="option-btn" onclick="pick('ritual',this,'Make tea or coffee')">Make tea or coffee</button>
+          <button class="option-btn" onclick="pick('ritual',this,'Put in earbuds')">Put in earbuds</button>
+          <button class="option-btn" onclick="pick('ritual',this,'Phone face down')">Phone face down</button>
+          <button class="option-btn" onclick="pick('ritual',this,'Close the door')">Close the door</button>
+          <button class="option-btn" onclick="pick('ritual',this,'Other')">Other</button>
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label"><span>My time</span> — how many minutes do I have?</label>
+        <div class="option-row" id="minsOpts">
+          <button class="option-btn" onclick="pick('mins',this,'15')">15 min</button>
+          <button class="option-btn" onclick="pick('mins',this,'20')">20 min</button>
+          <button class="option-btn" onclick="pick('mins',this,'30')">30 min</button>
+          <button class="option-btn" onclick="pick('mins',this,'45')">45 min</button>
+          <button class="option-btn" onclick="pick('mins',this,'60')">60 min</button>
+          <button class="option-btn" onclick="pick('mins',this,'90')">90 min</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="section-label">Your session plan</p>
+      <div class="plan-card">
+        <div class="plan-row">
+          <i class="ti ti-moon plan-icon" aria-hidden="true"></i>
+          <span class="plan-label">Pocket</span>
+          <span class="plan-value empty" id="pv-pocket">Not set yet</span>
+        </div>
+        <div class="plan-row">
+          <i class="ti ti-bolt plan-icon" aria-hidden="true"></i>
+          <span class="plan-label">Brain type</span>
+          <span class="plan-value empty" id="pv-brain">Not set yet</span>
+        </div>
+        <div class="plan-row">
+          <i class="ti ti-target plan-icon" aria-hidden="true"></i>
+          <span class="plan-label">One thing</span>
+          <span class="plan-value empty" id="pv-thing">Not set yet</span>
+        </div>
+        <div class="plan-row">
+          <i class="ti ti-flame plan-icon" aria-hidden="true"></i>
+          <span class="plan-label">Ritual</span>
+          <span class="plan-value empty" id="pv-ritual">Not set yet</span>
+        </div>
+        <div class="plan-row">
+          <i class="ti ti-clock plan-icon" aria-hidden="true"></i>
+          <span class="plan-label">Time</span>
+          <span class="plan-value empty" id="pv-mins">Not set yet</span>
+        </div>
+      </div>
+      <button class="start-btn" onclick="startSession()">
+        <i class="ti ti-player-play" aria-hidden="true"></i>
+        Start my stolen hour
+      </button>
+    </div>
+  </div>
+
+  <div id="timerView" style="display:none;">
+    <div class="card">
+      <p class="section-label">Session in progress</p>
+      <div class="plan-card">
+        <div class="plan-row">
+          <i class="ti ti-target plan-icon" aria-hidden="true"></i>
+          <span class="plan-label">One thing</span>
+          <span class="plan-value" id="tv-thing"></span>
+        </div>
+        <div class="plan-row">
+          <i class="ti ti-clock plan-icon" aria-hidden="true"></i>
+          <span class="plan-label">Time set</span>
+          <span class="plan-value" id="tv-mins"></span>
+        </div>
+      </div>
+      <div class="timer-wrap">
+        <div class="timer-display" id="timerDisplay">00:00</div>
+        <p class="timer-label" id="timerLabel">Timer running</p>
+        <div class="timer-btns">
+          <button class="timer-btn" onclick="pauseTimer()" id="pauseBtn">Pause</button>
+          <button class="timer-btn" onclick="endSession()">End session</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="doneView" style="display:none;">
+    <div class="card">
+      <div class="done-box">
+        <p class="done-title">You did a stolen hour.</p>
+        <p class="done-body" id="doneMsg"></p>
+      </div>
+      <div class="after-wrap">
+        <p class="after-label">What did you actually get done? Write it here — even one sentence.</p>
+        <textarea class="after-input" id="afterNote" placeholder="I wrote the first paragraph. I brainstormed three ideas. I did the thing."></textarea>
+      </div>
+      <a href="https://www.skool.com/she-builds-anyway" class="cta-btn">
+        <i class="ti ti-flame" aria-hidden="true"></i>
+        Drop your win in She Builds Anyway
+      </a>
+      <button class="reset-btn" onclick="resetAll()">Start a new session</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Built for FireStarters. <a href="https://www.skool.com/she-builds-anyway">She Builds Anyway</a> — Free to join. Always.</p>
+  </div>
+
+</div>
+
+<script>
+const state = { pocket: '', brain: '', mins: '', ritual: '' };
+let timerInterval = null;
+let secondsElapsed = 0;
+let totalSeconds = 0;
+let running = false;
+
+function pick(key, btn, val) {
+  const parentId = key + 'Opts';
+  const parent = document.getElementById(parentId);
+  if (parent) parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state[key] = val;
+  updatePlan();
+}
+
+function updatePlan() {
+  const thing = document.getElementById('oneThing').value.trim();
+  set('pv-pocket', state.pocket);
+  set('pv-brain', state.brain);
+  set('pv-thing', thing);
+  set('pv-ritual', state.ritual);
+  set('pv-mins', state.mins ? state.mins + ' minutes' : '');
+}
+
+function set(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (val) { el.textContent = val; el.className = 'plan-value'; }
+  else { el.textContent = 'Not set yet'; el.className = 'plan-value empty'; }
+}
+
+function startSession() {
+  const mins = parseInt(state.mins);
+  if (!mins) { alert('Please set how many minutes you have first.'); return; }
+  const thing = document.getElementById('oneThing').value.trim();
+  document.getElementById('tv-thing').textContent = thing || 'Your one thing';
+  document.getElementById('tv-mins').textContent = state.mins + ' minutes';
+  totalSeconds = mins * 60;
+  secondsElapsed = 0;
+  running = true;
+  document.getElementById('plannerView').style.display = 'none';
+  document.getElementById('timerView').style.display = 'block';
+  updateTimerDisplay();
+  timerInterval = setInterval(tick, 1000);
+}
+
+function tick() {
+  if (!running) return;
+  secondsElapsed++;
+  updateTimerDisplay();
+  if (secondsElapsed >= totalSeconds) {
+    clearInterval(timerInterval);
+    endSession();
+  }
+}
+
+function updateTimerDisplay() {
+  const remaining = Math.max(0, totalSeconds - secondsElapsed);
+  const m = Math.floor(remaining / 60);
+  const s = remaining % 60;
+  document.getElementById('timerDisplay').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  const pct = Math.round(secondsElapsed / totalSeconds * 100);
+  document.getElementById('timerLabel').textContent = pct + '% through your stolen hour';
+}
+
+function pauseTimer() {
+  running = !running;
+  document.getElementById('pauseBtn').textContent = running ? 'Pause' : 'Resume';
+}
+
+function endSession() {
+  clearInterval(timerInterval);
+  running = false;
+  const mins = Math.round(secondsElapsed / 60);
+  document.getElementById('timerView').style.display = 'none';
+  document.getElementById('doneView').style.display = 'block';
+  document.getElementById('doneMsg').textContent = 'You just spent ' + mins + ' minutes building something real. In a stolen hour. That counts. Go drop your win in the community.';
+}
+
+function resetAll() {
+  document.getElementById('doneView').style.display = 'none';
+  document.getElementById('plannerView').style.display = 'block';
+  secondsElapsed = 0;
+  totalSeconds = 0;
+  running = false;
+  document.getElementById('timerDisplay').textContent = '00:00';
+  document.getElementById('afterNote').value = '';
+}
+</script>
+</body>
+</html>

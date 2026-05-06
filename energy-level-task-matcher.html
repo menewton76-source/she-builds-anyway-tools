@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Level Task Matcher — She Builds Anyway</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #3B7A9A; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 700px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 2.5rem; }
+  .logo { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #E89B8A; margin-bottom: 12px; }
+  .header h1 { font-size: 32px; font-weight: 300; color: #FDFAF3; margin-bottom: 8px; }
+  .header p { font-size: 15px; color: rgba(253,250,243,0.65); line-height: 1.6; }
+
+  .card { background: rgba(253,250,243,0.07); border: 0.5px solid rgba(253,250,243,0.15); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section-label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #E89B8A; font-weight: 500; margin-bottom: 1rem; }
+
+  .energy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .energy-card { background: rgba(253,250,243,0.06); border: 0.5px solid rgba(253,250,243,0.15); border-radius: 12px; padding: 1.25rem; cursor: pointer; transition: all 0.15s; text-align: center; }
+  .energy-card:hover { border-color: rgba(232,155,138,0.5); background: rgba(232,155,138,0.08); }
+  .energy-card.selected-peak { border: 1.5px solid #1D9E75; background: rgba(29,158,117,0.15); }
+  .energy-card.selected-peak .energy-title { color: #9FE1CB; }
+  .energy-card.selected-peak .energy-icon { color: #5DCAA5; }
+  .energy-card.selected-dip { border: 1.5px solid #378ADD; background: rgba(55,138,221,0.15); }
+  .energy-card.selected-dip .energy-title { color: #B5D4F4; }
+  .energy-card.selected-dip .energy-icon { color: #85B7EB; }
+  .energy-card.selected-empty { border: 1.5px solid #E89B8A; background: rgba(232,155,138,0.15); }
+  .energy-card.selected-empty .energy-title { color: #E89B8A; }
+  .energy-card.selected-empty .energy-icon { color: #E89B8A; }
+  .energy-icon { font-size: 28px; color: rgba(253,250,243,0.45); margin-bottom: 8px; display: block; }
+  .energy-title { font-size: 15px; font-weight: 500; color: #FDFAF3; margin: 0 0 4px; }
+  .energy-desc { font-size: 12px; color: rgba(253,250,243,0.55); margin: 0; line-height: 1.5; }
+
+  .divider { border: none; border-top: 0.5px solid rgba(253,250,243,0.1); margin: 0 0 1.5rem; }
+
+  .task-header { font-size: 18px; font-weight: 500; color: #FDFAF3; margin: 0 0 6px; }
+  .task-sub { font-size: 13px; color: rgba(253,250,243,0.65); margin: 0 0 1.25rem; line-height: 1.6; }
+
+  .progress-wrap { margin-bottom: 1.25rem; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: rgba(253,250,243,0.55); margin-bottom: 6px; }
+  .progress-bar { height: 6px; background: rgba(253,250,243,0.1); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #E89B8A; border-radius: 3px; transition: width 0.3s; }
+
+  .task-list { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+  .task-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid rgba(253,250,243,0.08); cursor: pointer; transition: opacity 0.15s; }
+  .task-item:last-child { border-bottom: none; }
+  .task-item.done { opacity: 0.5; }
+  .task-item.done .task-text { text-decoration: line-through; }
+  .task-check { width: 22px; height: 22px; border-radius: 50%; border: 0.5px solid rgba(253,250,243,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.15s; }
+  .task-check.checked { background: #E89B8A; border-color: #E89B8A; }
+  .task-check i { font-size: 13px; color: white; }
+  .task-text { font-size: 14px; color: #FDFAF3; line-height: 1.6; flex: 1; }
+  .task-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; font-weight: 500; margin-top: 2px; }
+  .badge-create { background: rgba(29,158,117,0.2); color: #9FE1CB; }
+  .badge-organize { background: rgba(55,138,221,0.2); color: #B5D4F4; }
+  .badge-consume { background: rgba(232,155,138,0.2); color: #E89B8A; }
+
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border: 0.5px solid rgba(232,155,138,0.5); border-radius: 40px; background: rgba(232,155,138,0.1); color: #E89B8A; font-size: 14px; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+  .cta-btn:hover { background: rgba(232,155,138,0.2); }
+
+  .empty-state { font-size: 14px; color: rgba(253,250,243,0.4); font-style: italic; padding: 1rem 0; text-align: center; }
+
+  .footer { text-align: center; margin-top: 2rem; font-size: 12px; color: rgba(253,250,243,0.3); }
+  .footer a { color: #E89B8A; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <p class="logo">She Builds Anyway</p>
+    <h1>What should I work on right now?</h1>
+    <p>Pick your energy level and get tasks matched to your brain.</p>
+  </div>
+
+  <div class="card">
+    <p class="section-label">How are you feeling right now?</p>
+    <div class="energy-grid">
+      <div class="energy-card" data-level="peak" onclick="selectEnergy(this)">
+        <i class="ti ti-bolt energy-icon" aria-hidden="true"></i>
+        <p class="energy-title">Actually awake</p>
+        <p class="energy-desc">Sharp. Focused. Ready to create something real.</p>
+      </div>
+      <div class="energy-card" data-level="dip" onclick="selectEnergy(this)">
+        <i class="ti ti-battery-half energy-icon" aria-hidden="true"></i>
+        <p class="energy-title">Okay but not sharp</p>
+        <p class="energy-desc">Getting through it. Brain is working but slow.</p>
+      </div>
+      <div class="energy-card" data-level="empty" onclick="selectEnergy(this)">
+        <i class="ti ti-moon energy-icon" aria-hidden="true"></i>
+        <p class="energy-title">Running on empty</p>
+        <p class="energy-desc">Tired. After bedtime energy. Still here though.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="tasksCard">
+    <p class="empty-state">Pick your energy level above to see your matched tasks.</p>
+  </div>
+
+  <div class="footer">
+    <p>Built for FireStarters. <a href="https://www.skool.com/she-builds-anyway">She Builds Anyway</a> — Free to join. Always.</p>
+  </div>
+
+</div>
+
+<script>
+const tasks = {
+  peak: {
+    title: "Peak brain tasks",
+    sub: "Your brain is sharp right now. Use it for the hard stuff. Creating. Deciding. Writing. This is your most valuable building time.",
+    badge: "badge-create",
+    badgeLabel: "create",
+    items: [
+      "Write your first piece of content — a post, a caption, an idea",
+      "Record a rough draft video or audio — even if it never gets used",
+      "Brainstorm your offer — what could you sell and to who",
+      "Map out your next 3 content ideas while your brain is clear",
+      "Write the copy for one thing — a bio, a landing page section, a description",
+      "Make a decision you have been putting off — pick the niche, pick the name, pick the direction",
+      "Do the hardest lesson in your current classroom",
+      "Plan your week of content in one focused session"
+    ]
+  },
+  dip: {
+    title: "Dip brain tasks",
+    sub: "Not your sharpest but still useful. Perfect for organizing, admin, and things that move you forward without needing deep thinking.",
+    badge: "badge-organize",
+    badgeLabel: "organize",
+    items: [
+      "Schedule the posts you already wrote",
+      "Respond to comments and messages",
+      "Tidy up your Canva workspace or folder",
+      "Watch a lesson you have been meaning to get to",
+      "Organize your ideas doc — clean it up, delete the old ones",
+      "Set up or update your profile on one platform",
+      "Research one thing you need to know — keep it to one tab",
+      "Reply to community posts and leave thoughtful comments"
+    ]
+  },
+  empty: {
+    title: "Wind down brain tasks",
+    sub: "You are tired. That is real. But this hour is still yours. Use it for light input and gentle planning. Save the creating for tomorrow.",
+    badge: "badge-consume",
+    badgeLabel: "consume",
+    items: [
+      "Listen to one podcast episode related to your business",
+      "Watch one short lesson — no pressure to take notes",
+      "Write down one idea that came to you today before you forget it",
+      "Scroll your niche intentionally — notice what content is working",
+      "Pre-decide your one task for tomorrow's stolen hour",
+      "Leave one meaningful comment somewhere that matters",
+      "Read one piece of content from someone you admire",
+      "Write tomorrow's session planner so you are ready to go"
+    ]
+  }
+};
+
+let currentLevel = null;
+const checked = {};
+
+function selectEnergy(card) {
+  document.querySelectorAll('.energy-card').forEach(c => { c.className = 'energy-card'; });
+  const level = card.dataset.level;
+  card.classList.add('selected-' + level);
+  currentLevel = level;
+  checked[level] = checked[level] || {};
+  renderTasks(level);
+}
+
+function renderTasks(level) {
+  const data = tasks[level];
+  const done = checked[level] || {};
+  const doneCount = Object.values(done).filter(Boolean).length;
+  const total = data.items.length;
+  const pct = Math.round(doneCount / total * 100);
+
+  document.getElementById('tasksCard').innerHTML = `
+    <p class="section-label">Your matched tasks</p>
+    <p class="task-header">${data.title}</p>
+    <p class="task-sub">${data.sub}</p>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Done this session</span><span>${doneCount} of ${total}</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <ul class="task-list">
+      ${data.items.map((item, i) => `
+        <li class="task-item${done[i] ? ' done' : ''}" onclick="toggleTask(${i})">
+          <div class="task-check${done[i] ? ' checked' : ''}">${done[i] ? '<i class="ti ti-check" aria-hidden="true"></i>' : ''}</div>
+          <span class="task-text">${item}</span>
+          <span class="task-badge ${data.badge}">${data.badgeLabel}</span>
+        </li>
+      `).join('')}
+    </ul>
+    <a href="https://www.skool.com/she-builds-anyway" class="cta-btn">
+      <i class="ti ti-flame" aria-hidden="true"></i>
+      Join She Builds Anyway — it is free
+    </a>
+  `;
+}
+
+function toggleTask(i) {
+  if (!currentLevel) return;
+  checked[currentLevel] = checked[currentLevel] || {};
+  checked[currentLevel][i] = !checked[currentLevel][i];
+  renderTasks(currentLevel);
+}
+</script>
+</body>
+</html>
