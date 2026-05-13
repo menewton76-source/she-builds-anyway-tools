@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Your Ignition Point — She Builds Anyway</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a3a4a 0%, #3B7A9A 50%, #1a3a4a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Georgia', serif;
+      padding: 24px;
+    }
+    .container { width: 100%; max-width: 580px; }
+    .header { text-align: center; margin-bottom: 32px; }
+    .flames { display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; }
+    .brand-label {
+      color: #E89B8A;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    h1 { color: #FDFAF3; font-size: 22px; font-weight: 400; line-height: 1.3; }
+    .subtitle { color: rgba(253,250,243,0.6); font-size: 13px; margin-top: 8px; }
+    .card {
+      background: rgba(253,250,243,0.06);
+      border: 1px solid rgba(232,155,138,0.3);
+      border-radius: 20px;
+      padding: 32px;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .card.animating { opacity: 0; transform: translateY(8px); }
+    .progress { display: flex; gap: 6px; margin-bottom: 28px; }
+    .progress-bar {
+      height: 3px;
+      flex: 1;
+      border-radius: 2px;
+      background: rgba(253,250,243,0.15);
+      transition: background 0.3s ease;
+    }
+    .progress-bar.active { background: #E89B8A; }
+    .question-label {
+      color: rgba(253,250,243,0.5);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .question-tag {
+      display: inline-block;
+      background: rgba(232,155,138,0.15);
+      color: #E89B8A;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    h2 { color: #FDFAF3; font-size: 18px; font-weight: 400; line-height: 1.5; margin-bottom: 24px; }
+    .answers { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .answer-btn {
+      background: rgba(253,250,243,0.04);
+      border: 1px solid rgba(253,250,243,0.12);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: rgba(253,250,243,0.75);
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
+      line-height: 1.5;
+      font-family: 'Georgia', serif;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+    .answer-btn:hover {
+      background: rgba(232,155,138,0.1);
+      border-color: rgba(232,155,138,0.4);
+      color: #FDFAF3;
+    }
+    .answer-btn.selected {
+      background: rgba(232,155,138,0.2);
+      border-color: #E89B8A;
+      color: #FDFAF3;
+    }
+    .radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(253,250,243,0.25);
+      background: transparent;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .answer-btn.selected .radio {
+      border-color: #E89B8A;
+      background: #E89B8A;
+    }
+    .radio-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FDFAF3;
+      display: none;
+    }
+    .answer-btn.selected .radio-dot { display: block; }
+    .next-btn {
+      width: 100%;
+      background: rgba(232,155,138,0.2);
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      color: rgba(232,155,138,0.4);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: not-allowed;
+      font-family: 'Georgia', serif;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
+    }
+    .next-btn.ready {
+      background: #E89B8A;
+      color: #4A1B0C;
+      cursor: pointer;
+    }
+    .next-btn.ready:hover { background: #d4836f; }
+    .result-card {
+      background: rgba(253,250,243,0.06);
+      border: 1px solid rgba(232,155,138,0.3);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+      display: none;
+    }
+    .result-label {
+      color: #E89B8A;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .result-title {
+      color: #FDFAF3;
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .result-box {
+      background: rgba(232,155,138,0.1);
+      border: 1px solid rgba(232,155,138,0.2);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .result-box p { color: rgba(253,250,243,0.85); font-size: 14px; line-height: 1.8; }
+    .signature {
+      color: #E89B8A;
+      font-size: 13px;
+      font-style: italic;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .nudge { color: rgba(253,250,243,0.5); font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
+    .join-btn {
+      display: block;
+      width: 100%;
+      background: #E89B8A;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      color: #4A1B0C;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Georgia', serif;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+    .join-btn:hover { background: #d4836f; }
+    .retake-btn {
+      background: transparent;
+      border: 1px solid rgba(232,155,138,0.3);
+      border-radius: 10px;
+      padding: 10px 20px;
+      color: rgba(232,155,138,0.7);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'Georgia', serif;
+      letter-spacing: 0.05em;
+      transition: all 0.2s ease;
+    }
+    .retake-btn:hover { border-color: #E89B8A; color: #E89B8A; }
+    .footer {
+      text-align: center;
+      color: rgba(253,250,243,0.3);
+      font-size: 11px;
+      margin-top: 20px;
+      letter-spacing: 0.1em;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(232,155,138,0.15);
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="flames">
+      <svg width="28" height="28" viewBox="0 0 64 64" fill="none"><path d="M32 4C31 14 28 20 23 25C17 30 12 22 15 12C6 22 4 36 8 48C12 58 22 63 30 63C26 57 25 49 28 44C30 52 33 60 36 63C44 60 52 54 56 44C60 34 59 20 53 10C51 18 47 24 42 21C37 18 33 12 32 4Z" fill="#E89B8A"/></svg>
+      <svg width="36" height="36" viewBox="0 0 64 64" fill="none"><path d="M32 4C31 14 28 20 23 25C17 30 12 22 15 12C6 22 4 36 8 48C12 58 22 63 30 63C26 57 25 49 28 44C30 52 33 60 36 63C44 60 52 54 56 44C60 34 59 20 53 10C51 18 47 24 42 21C37 18 33 12 32 4Z" fill="#E89B8A"/></svg>
+      <svg width="28" height="28" viewBox="0 0 64 64" fill="none"><path d="M32 4C31 14 28 20 23 25C17 30 12 22 15 12C6 22 4 36 8 48C12 58 22 63 30 63C26 57 25 49 28 44C30 52 33 60 36 63C44 60 52 54 56 44C60 34 59 20 53 10C51 18 47 24 42 21C37 18 33 12 32 4Z" fill="#E89B8A"/></svg>
+    </div>
+    <p class="brand-label">She Builds Anyway</p>
+    <h1>Find Your Ignition Point</h1>
+    <p class="subtitle">6 questions · less than 2 minutes</p>
+  </div>
+
+  <div class="card" id="quiz-card">
+    <div class="progress" id="progress-bars"></div>
+    <div class="question-tag" id="question-tag"></div>
+    <p class="question-label" id="question-label"></p>
+    <h2 id="question-text"></h2>
+    <div class="answers" id="answers"></div>
+    <button class="next-btn" id="next-btn" onclick="handleNext()">Next question →</button>
+  </div>
+
+  <div class="result-card" id="result-card">
+    <div id="result-flames" style="margin-bottom:16px;display:flex;justify-content:center;gap:4px;"></div>
+    <p class="result-label">Your Ignition Point</p>
+    <h2 class="result-title" id="result-title"></h2>
+    <div class="result-box"><p id="result-body"></p></div>
+    <p class="signature" id="result-signature"></p>
+    <hr class="divider">
+    <p class="nudge">Ready to start? Your path is waiting.<br>Join free and introduce yourself. We actually read every single one.</p>
+    <a class="join-btn" href="https://www.skool.com/she-builds-anyway/about" target="_blank">Join She Builds Anyway — It's Free 🔥</a>
+    <button class="retake-btn" onclick="restart()">Retake the quiz</button>
+  </div>
+
+  <p class="footer">SHE BUILDS ANYWAY · FREE TO JOIN · ALWAYS</p>
+</div>
+
+<script>
+  const questions = [
+    {
+      tag: "The wound",
+      question: "When you think about building something online, what's the first thing that stops you?",
+      answers: [
+        { text: "I just don't have the time. Life is completely full.", value: "A" },
+        { text: "I don't know where to start. And honestly it might be too late for me.", value: "B" },
+        { text: "Both of these. On repeat.", value: "BOTH" },
+      ]
+    },
+    {
+      tag: "Your season",
+      question: "Which best describes where you are right now?",
+      answers: [
+        { text: "I'm in the thick of it. Kids, chaos, a full plate and not enough hours.", value: "A" },
+        { text: "My life has more space now but I feel like I'm starting over from scratch.", value: "B" },
+        { text: "Some days one, some days the other.", value: "BOTH" },
+      ]
+    },
+    {
+      tag: "Your fear",
+      question: "What's the story you tell yourself most?",
+      answers: [
+        { text: "I'll start when things calm down. (They never calm down.)", value: "A" },
+        { text: "Everyone else already knows how to do this. I'm so far behind.", value: "B" },
+        { text: "Honestly both of those are on a loop in my head.", value: "BOTH" },
+      ]
+    },
+    {
+      tag: "Your dream",
+      question: "When you imagine having your own online business, what does that look like?",
+      answers: [
+        { text: "Something I can build after bedtime that gives my kids a better future.", value: "A" },
+        { text: "Something that proves to me it's not too late to build something of my own.", value: "B" },
+        { text: "Both of those made me feel something.", value: "BOTH" },
+      ]
+    },
+    {
+      tag: "Your relationship with AI",
+      question: "When you hear the word AI, what's your gut reaction?",
+      answers: [
+        { text: "It sounds complicated but I'm willing to try if it saves me time.", value: "A" },
+        { text: "I feel behind — like everyone already knows this except me.", value: "B" },
+        { text: "Mix of both. Intimidated and curious at the same time.", value: "BOTH" },
+      ]
+    },
+    {
+      tag: "Your defiance",
+      question: "What brought you here today?",
+      answers: [
+        { text: "I'm tired of waiting for the right moment. I'm doing this anyway.", value: "A" },
+        { text: "I decided I'm not going to let my age or my fear stop me anymore.", value: "B" },
+        { text: "Both. I just decided enough is enough.", value: "BOTH" },
+      ]
+    },
+  ];
+
+  const results = {
+    A: {
+      title: "Ignition Point 1:\nStolen Hours",
+      body: "You're building in the margins of a full life. After bedtime. In school pickup lines. In the 45 minutes you carved out of thin air.\n\nThis path was made for you. Faith is going to show you how to turn those stolen hours into something real — no perfect timing required, no massive blocks of free time. Just you, a plan, and the time you already have.",
+      signature: '"The 45 minutes you have is enough to start."',
+      flames: 1
+    },
+    B: {
+      title: "Ignition Point 2:\nReclaimed Hours",
+      body: "You've spent years showing up for everyone else. Now it's your turn. The door isn't closed — it's wide open. And you just walked through it.\n\nSylvie is going to walk you through this and show you that your experience, your wisdom, and your story are exactly the ingredients you need to build something beautiful.",
+      signature: '"The door is wide open. And you just walked through it."',
+      flames: 1
+    },
+    BOTH: {
+      title: "Both paths are yours.",
+      body: "You're carrying both wounds — no time and wondering if it's too late. That means you belong in both classrooms.\n\nStart wherever feels right today. Faith and Sylvie are both here for you, and so is every FireStarter in this community. Same destination. Two doors. One room.\n\nWelcome to the room.",
+      signature: '"Same destination. Two doors. One room. Welcome to the room."',
+      flames: 3
+    }
+  };
+
+  let current = 0;
+  let answers = [];
+  let selected = null;
+
+  const flameSVG = (size) => `<svg width="${size}" height="${size}" viewBox="0 0 64 64" fill="none"><path d="M32 4C31 14 28 20 23 25C17 30 12 22 15 12C6 22 4 36 8 48C12 58 22 63 30 63C26 57 25 49 28 44C30 52 33 60 36 63C44 60 52 54 56 44C60 34 59 20 53 10C51 18 47 24 42 21C37 18 33 12 32 4Z" fill="#E89B8A"/></svg>`;
+
+  function buildProgressBars() {
+    const el = document.getElementById('progress-bars');
+    el.innerHTML = '';
+    for (let i = 0; i < questions.length; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'progress-bar' + (i <= current ? ' active' : '');
+      bar.id = `bar-${i}`;
+      el.appendChild(bar);
+    }
+  }
+
+  function renderQuestion() {
+    const q = questions[current];
+    document.getElementById('question-tag').textContent = q.tag;
+    document.getElementById('question-label').textContent = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById('question-text').textContent = q.question;
+
+    const answersEl = document.getElementById('answers');
+    answersEl.innerHTML = '';
+    q.answers.forEach(a => {
+      const btn = document.createElement('button');
+      btn.className = 'answer-btn';
+      btn.innerHTML = `<span class="radio"><span class="radio-dot"></span></span>${a.text}`;
+      btn.onclick = () => selectAnswer(a.value, btn);
+      answersEl.appendChild(btn);
+    });
+
+    buildProgressBars();
+
+    const nextBtn = document.getElementById('next-btn');
+    nextBtn.textContent = current + 1 === questions.length ? 'Show my path →' : 'Next question →';
+    nextBtn.className = 'next-btn';
+    selected = null;
+  }
+
+  function selectAnswer(value, btnEl) {
+    selected = value;
+    document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+    btnEl.classList.add('selected');
+    document.getElementById('next-btn').className = 'next-btn ready';
+  }
+
+  function handleNext() {
+    if (!selected) return;
+    answers.push(selected);
+    const card = document.getElementById('quiz-card');
+    card.classList.add('animating');
+    setTimeout(() => {
+      if (current + 1 >= questions.length) {
+        showResult();
+      } else {
+        current++;
+        renderQuestion();
+        card.classList.remove('animating');
+      }
+    }, 300);
+  }
+
+  function getResult() {
+    const aCount = answers.filter(a => a === 'A').length;
+    const bCount = answers.filter(a => a === 'B').length;
+    const bothCount = answers.filter(a => a === 'BOTH').length;
+    if (bothCount >= 3) return 'BOTH';
+    if (aCount + bothCount > bCount + 1) return 'A';
+    if (bCount + bothCount > aCount + 1) return 'B';
+    return 'BOTH';
+  }
+
+  function showResult() {
+    document.getElementById('quiz-card').style.display = 'none';
+    const r = results[getResult()];
+
+    document.getElementById('result-title').textContent = r.title;
+    document.getElementById('result-body').innerHTML = r.body.split('\n\n').map(p => `<p style="margin-bottom:10px">${p}</p>`).join('');
+    document.getElementById('result-signature').textContent = r.signature;
+
+    const flamesEl = document.getElementById('result-flames');
+    if (r.flames === 3) {
+      flamesEl.innerHTML = flameSVG(36) + flameSVG(48) + flameSVG(36);
+    } else {
+      flamesEl.innerHTML = flameSVG(48);
+    }
+
+    document.getElementById('result-card').style.display = 'block';
+  }
+
+  function restart() {
+    current = 0;
+    answers = [];
+    selected = null;
+    document.getElementById('result-card').style.display = 'none';
+    const card = document.getElementById('quiz-card');
+    card.style.display = 'block';
+    card.classList.remove('animating');
+    renderQuestion();
+  }
+
+  renderQuestion();
+</script>
+</body>
+</html>
