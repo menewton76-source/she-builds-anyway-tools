@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>She Builds Anyway — Free AI Business Community for Women</title>
+  <meta name="description" content="AI tools. Stolen hours. Real results. She Builds Anyway is a free Skool community for women building online businesses using AI. No tech degree required.">
+  <meta property="og:title" content="She Builds Anyway — Free AI Business Community for Women">
+  <meta property="og:description" content="AI tools. Stolen hours. Real results. Free Skool community for women building with AI.">
+  <meta property="og:image" content="assets/sba-cover.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --blue:        #3B7A9A;
+      --blue-dark:   #2d5f77;
+      --coral:       #E89B8A;
+      --coral-dark:  #d4806e;
+      --cream:       #FDFAF3;
+      --text-dark:   #252525;
+      --text-mid:    #4a4a4a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.65;
+      /* room for sticky CTA on mobile */
+      padding-bottom: 76px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 6vw, 3.6rem); }
+    h2 { font-size: clamp(1.55rem, 4vw, 2.5rem); }
+    h3 { font-size: clamp(1.1rem, 3vw, 1.5rem); }
+    p  { font-size: clamp(0.95rem, 2vw, 1.05rem); }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      background: var(--coral);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.95rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:hover  { background: var(--coral-dark); transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-lg { font-size: 1.1rem; padding: 1.1rem 2.5rem; }
+
+    /* ===== STICKY CTA (mobile only) ===== */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 999;
+      padding: 10px 16px 12px;
+      background: rgba(253,250,243,0.96);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(59,122,154,0.18);
+      text-align: center;
+    }
+    .sticky-cta .btn {
+      width: 100%;
+      max-width: 420px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* ===== SECTION SHELLS ===== */
+    .section { padding: 4rem 1.25rem; }
+    .inner   { max-width: 900px; margin: 0 auto; }
+
+    /* ===== FLAME DIVIDER ===== */
+    .flame-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-bottom: 2.25rem;
+    }
+    .flame-divider img { width: 26px; height: auto; }
+    .fdl {
+      flex: 1;
+      max-width: 100px;
+      height: 1px;
+      background: rgba(59,122,154,0.2);
+    }
+    .fdl.inv { background: rgba(253,250,243,0.2); }
+
+
+    /* ================================================
+       SECTION 1 — HERO
+    ================================================ */
+    .hero {
+      position: relative;
+      min-height: 88vh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.08) 0%,
+        rgba(0,0,0,0.42) 55%,
+        rgba(31,69,90,0.82) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 2rem 1.25rem 3.5rem;
+      text-align: center;
+      color: var(--cream);
+    }
+    .hero-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.45);
+      letter-spacing: 0.01em;
+    }
+    .hero-name {
+      font-size: clamp(2.2rem, 7vw, 4.2rem);
+      font-weight: 700;
+      margin-bottom: 1.75rem;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .hero-flame {
+      width: clamp(28px, 4vw, 44px);
+      height: auto;
+      display: inline-block;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+    }
+
+
+    /* ================================================
+       SECTION 2 — WHAT IS SBA
+    ================================================ */
+    .what-sba { background: var(--cream); }
+    .what-sba .inner { text-align: center; }
+
+    .what-sba h2 {
+      color: var(--blue);
+      margin-bottom: 1.1rem;
+    }
+    .what-sba .intro {
+      color: var(--text-mid);
+      max-width: 620px;
+      margin: 0 auto 2.75rem;
+    }
+
+    .avatars-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .avatar-card { text-align: center; flex: 0 0 auto; }
+    .avatar-card img {
+      width: clamp(120px, 28vw, 165px);
+      height: auto;
+      margin: 0 auto 0.55rem;
+      filter: drop-shadow(0 4px 12px rgba(59,122,154,0.18));
+    }
+    .avatar-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+
+    /* ================================================
+       SECTION 3 — TWO DOORS
+    ================================================ */
+    .two-doors {
+      background: var(--blue);
+      padding: 0;
+      line-height: 0;
+    }
+    .two-doors img { width: 100%; height: auto; }
+
+
+    /* ================================================
+       SECTION 4 — FREE GIFT
+    ================================================ */
+    .free-gift { background: var(--cream); }
+    .free-gift h2 {
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .gift-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    /* ---- generated ebook cover ---- */
+    .ebook-cover {
+      background: var(--blue);
+      color: var(--cream);
+      border-radius: 6px;
+      width: 215px;
+      min-height: 305px;
+      padding: 1.85rem 1.6rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      flex-shrink: 0;
+      box-shadow:
+        6px 6px 0 rgba(59,122,154,0.35),
+        10px 10px 30px rgba(0,0,0,0.28);
+      position: relative;
+    }
+    .ebook-cover::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px solid rgba(253,250,243,0.12);
+      border-radius: 3px;
+      pointer-events: none;
+    }
+    .ebook-series {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 0.9rem;
+    }
+    .ebook-flame {
+      width: 46px;
+      height: auto;
+      margin: 0 auto 1rem;
+      filter: brightness(1.1);
+    }
+    .ebook-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+    }
+    .ebook-rule {
+      width: 36px;
+      height: 2px;
+      background: var(--coral);
+      margin: 0.9rem auto;
+    }
+    .ebook-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: rgba(253,250,243,0.82);
+      line-height: 1.4;
+    }
+    .ebook-byline {
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(253,250,243,0.45);
+      margin-top: 1.2rem;
+    }
+
+    /* ---- gift content right side ---- */
+    .gift-content { max-width: 480px; width: 100%; }
+    .gift-content h3 {
+      color: var(--blue);
+      font-size: 1.35rem;
+      margin-bottom: 0.3rem;
+    }
+    .gift-subtitle {
+      color: var(--coral);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.4rem;
+    }
+    .benefit-list { list-style: none; margin-bottom: 1.85rem; }
+    .benefit-list li {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      padding: 0.55rem 0 0.55rem 1.45rem;
+      position: relative;
+      border-bottom: 1px solid rgba(59,122,154,0.09);
+      line-height: 1.5;
+    }
+    .benefit-list li:last-child { border-bottom: none; }
+    .benefit-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+
+
+    /* ================================================
+       SECTION 5 — ROADMAP
+    ================================================ */
+    .roadmap { background: var(--cream); }
+    .roadmap h2 {
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    .roadmap .sub {
+      text-align: center;
+      color: var(--text-mid);
+      margin-bottom: 2.5rem;
+    }
+    .roadmap img {
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      border-radius: 12px;
+    }
+
+
+    /* ================================================
+       SECTION 6 — MEMBER QUOTES
+    ================================================ */
+    .members { background: var(--blue); }
+    .members h2 {
+      color: var(--cream);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .members img {
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      border-radius: 12px;
+    }
+
+
+    /* ================================================
+       SECTION 7 — MUSIC VIDEO
+    ================================================ */
+    .music-video { background: var(--cream); }
+    .music-video h2 {
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 0.6rem;
+    }
+    .music-video .sub {
+      text-align: center;
+      color: var(--text-mid);
+      margin-bottom: 2rem;
+    }
+    .video-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 36px rgba(59,122,154,0.22);
+      background: #000;
+    }
+    .video-wrap video { width: 100%; display: block; }
+    .unmute-note {
+      text-align: center;
+      margin-top: 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      font-style: italic;
+    }
+
+
+    /* ================================================
+       SECTION 8 — FINAL CTA
+    ================================================ */
+    .final-cta { background: var(--blue); }
+    .final-cta .inner { text-align: center; }
+
+    .hero-together {
+      width: 100%;
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 44px rgba(0,0,0,0.32);
+    }
+    .hero-together img { width: 100%; height: auto; }
+
+    .final-cta h2 {
+      color: var(--cream);
+      margin-bottom: 0.65rem;
+    }
+    .final-cta .tagline-sub {
+      color: rgba(253,250,243,0.85);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+
+    /* ================================================
+       FOOTER
+    ================================================ */
+    .footer {
+      background: var(--cream);
+      padding: 1.85rem 1.25rem;
+      text-align: center;
+      border-top: 1px solid rgba(59,122,154,0.14);
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      margin-bottom: 0.45rem;
+    }
+    .footer-brand img { width: 20px; height: auto; }
+    .footer-brand span {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+    .footer-links {
+      font-size: 0.82rem;
+      color: var(--blue);
+    }
+    .footer-links a {
+      color: var(--blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(59,122,154,0.3);
+    }
+    .footer-links a:hover { border-bottom-color: var(--blue); }
+
+
+    /* ================================================
+       RESPONSIVE
+    ================================================ */
+
+    /* Tablet and up */
+    @media (min-width: 600px) {
+      .section { padding: 5rem 2rem; }
+
+      .gift-layout {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 3rem;
+      }
+
+      .ebook-cover {
+        width: 235px;
+        min-height: 325px;
+      }
+    }
+
+    /* Desktop: kill sticky CTA and bottom padding */
+    @media (min-width: 900px) {
+      body { padding-bottom: 0; }
+      .section { padding: 6rem 2rem; }
+    }
+
+    /* Show sticky CTA only on narrower screens */
+    @media (max-width: 899px) {
+      .sticky-cta { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== STICKY CTA (mobile only) ===== -->
+  <div class="sticky-cta" aria-label="Join prompt">
+    <a href="https://skool.com/she-builds-anyway" class="btn">Join the Free Community</a>
+  </div>
+
+
+  <!-- ============================================================
+       SECTION 1 — HERO
+  ============================================================ -->
+  <section class="hero" aria-label="She Builds Anyway hero">
+    <img
+      src="assets/sba-cover.jpg"
+      alt="Three women holding a flame — She Builds Anyway community"
+      class="hero-bg"
+    >
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-tagline">AI tools. Stolen hours. Real results.</p>
+      <h1 class="hero-name">
+        <img
+          src="assets/sba-flame.png"
+          alt=""
+          class="hero-flame"
+          aria-hidden="true"
+        >
+        She Builds Anyway
+        <img
+          src="assets/sba-flame.png"
+          alt=""
+          class="hero-flame"
+          aria-hidden="true"
+        >
+      </h1>
+      <a href="https://skool.com/she-builds-anyway" class="btn btn-lg">
+        Join the Free Community
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 2 — WHAT IS SBA
+  ============================================================ -->
+  <section class="section what-sba" aria-labelledby="what-heading">
+    <div class="inner">
+      <h2 id="what-heading">
+        You already have what it takes.<br>
+        You just need the tools and the time.
+      </h2>
+      <p class="intro">
+        SBA is a free Skool community for women building online businesses using AI.
+        No tech degree required. No perfect schedule required.
+        Just stolen hours and real tools.
+      </p>
+
+      <div class="avatars-row">
+        <div class="avatar-card">
+          <img
+            src="assets/faith-avatar.png"
+            alt="Faith, guide for the Stolen Hours path"
+          >
+          <p class="avatar-label">Faith — Stolen Hours path</p>
+        </div>
+        <div class="avatar-card">
+          <img
+            src="assets/sylvie-avatar.png"
+            alt="Sylvie, guide for the Reclaimed Hours path"
+          >
+          <p class="avatar-label">Sylvie — Reclaimed Hours path</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 3 — TWO DOORS
+  ============================================================ -->
+  <section class="two-doors" aria-label="Two paths, one destination">
+    <img
+      src="assets/sba-two-doors.png"
+      alt="Two entry paths: Stolen Hours for busy single moms, and Reclaimed Hours for women 50 plus. One destination: building your business."
+    >
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 4 — FREE GIFT
+  ============================================================ -->
+  <section class="section free-gift" aria-labelledby="gift-heading">
+    <div class="inner">
+      <h2 id="gift-heading">Start here. Your first free resource is waiting.</h2>
+
+      <div class="gift-layout">
+
+        <!-- Generated ebook cover -->
+        <div class="ebook-cover" role="img" aria-label="Not Technical ebook cover — A She Builds Anyway Guide">
+          <div>
+            <p class="ebook-series">A She Builds Anyway Guide</p>
+            <img
+              src="assets/sba-flame.png"
+              alt=""
+              class="ebook-flame"
+              aria-hidden="true"
+            >
+            <p class="ebook-title">Not<br>Technical</p>
+            <div class="ebook-rule" aria-hidden="true"></div>
+            <p class="ebook-subtitle">The Permission<br>and the On-Ramp</p>
+          </div>
+          <p class="ebook-byline">A She Builds Anyway Guide</p>
+        </div>
+
+        <!-- Benefit content -->
+        <div class="gift-content">
+          <h3>NOT TECHNICAL</h3>
+          <p class="gift-subtitle">Free when you join She Builds Anyway</p>
+          <ul class="benefit-list">
+            <li>You were never not technical. You were just never shown the door.</li>
+            <li>One hour from now you will have had your first real AI conversation.</li>
+            <li>No syntax. No code. Just a sentence in a box.</li>
+            <li>Built for the woman who closed the tab and told herself it was not for her.</li>
+          </ul>
+          <a href="https://skool.com/she-builds-anyway" class="btn">
+            Get It Free — Join SBA
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 5 — ROADMAP
+  ============================================================ -->
+  <section class="section roadmap" aria-labelledby="roadmap-heading">
+    <div class="inner">
+
+      <div class="flame-divider" aria-hidden="true">
+        <div class="fdl"></div>
+        <img src="assets/sba-flame.png" alt="">
+        <div class="fdl"></div>
+      </div>
+
+      <h2 id="roadmap-heading">
+        Zero to open for business.<br>Free. Step by step.
+      </h2>
+      <p class="sub">Seven phases. One free community. No experience required.</p>
+
+      <img
+        src="assets/sba-roadmap.png"
+        alt="Seven phase roadmap from zero to open for business inside She Builds Anyway"
+      >
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 6 — MEMBER QUOTES
+  ============================================================ -->
+  <section class="section members" aria-labelledby="members-heading">
+    <div class="inner">
+      <h2 id="members-heading">What FireStarters actually say.</h2>
+      <img
+        src="assets/sba-members.png"
+        alt="Real quotes from She Builds Anyway members"
+      >
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 7 — MUSIC VIDEO
+  ============================================================ -->
+  <section class="section music-video" aria-labelledby="video-heading">
+    <div class="inner">
+
+      <div class="flame-divider" aria-hidden="true">
+        <div class="fdl"></div>
+        <img src="assets/sba-flame.png" alt="">
+        <div class="fdl"></div>
+      </div>
+
+      <h2 id="video-heading">This is what building anyway sounds like.</h2>
+      <p class="sub">We made a song. Because why not.</p>
+
+      <div class="video-wrap">
+        <video
+          controls
+          muted
+          playsinline
+          preload="metadata"
+          aria-label="She Builds Anyway theme song music video with embedded captions"
+        >
+          <source src="assets/sba-theme-song.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+      <p class="unmute-note">Tap the speaker icon to unmute and hear the full song.</p>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SECTION 8 — FINAL CTA
+  ============================================================ -->
+  <section class="section final-cta" aria-labelledby="cta-heading">
+    <div class="inner">
+
+      <div class="hero-together">
+        <img
+          src="assets/faith-sylvie-together.png"
+          alt="Faith and Sylvie together in a warm living room by the fireplace"
+        >
+      </div>
+
+      <h2 id="cta-heading">Ready to build anyway?</h2>
+      <p class="tagline-sub">Free community. Real tools. Stolen hours welcome.</p>
+
+      <a href="https://skool.com/she-builds-anyway" class="btn btn-lg">
+        Join She Builds Anyway — Free
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer" aria-label="Footer">
+    <div class="footer-brand">
+      <img src="assets/sba-flame.png" alt="" aria-hidden="true">
+      <span>She Builds Anyway</span>
+    </div>
+    <p class="footer-links">
+      <a href="https://skool.com/she-builds-anyway" target="_blank" rel="noopener noreferrer">
+        skool.com/she-builds-anyway
+      </a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://instagram.com/itsfaithai" target="_blank" rel="noopener noreferrer">
+        @itsfaithai on Instagram
+      </a>
+    </p>
+  </footer>
+
+</body>
+</html>
