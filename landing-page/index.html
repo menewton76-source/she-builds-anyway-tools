@@ -236,11 +236,20 @@
       color: var(--coral);
       margin-bottom: 0.9rem;
     }
-    .ebook-flame {
-      width: 46px;
-      height: auto;
+    .ebook-flame-badge {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 0 auto 1rem;
-      mix-blend-mode: multiply;
+    }
+    .ebook-flame {
+      width: 52px;
+      height: auto;
+      display: block;
     }
     .ebook-title {
       font-family: 'Playfair Display', serif;
@@ -558,12 +567,13 @@
         <div class="ebook-cover" role="img" aria-label="Not Technical ebook cover — A She Builds Anyway Guide">
           <div>
             <p class="ebook-series">A She Builds Anyway Guide</p>
-            <img
-              src="assets/sba-flame.png"
-              alt=""
-              class="ebook-flame"
-              aria-hidden="true"
-            >
+            <div class="ebook-flame-badge" aria-hidden="true">
+              <img
+                src="assets/sba-flame.png"
+                alt=""
+                class="ebook-flame"
+              >
+            </div>
             <p class="ebook-title">Not<br>Technical</p>
             <div class="ebook-rule" aria-hidden="true"></div>
             <p class="ebook-subtitle">The Permission<br>and the On-Ramp</p>
