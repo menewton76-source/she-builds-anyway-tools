@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Find Your Ignition Point — She Builds Anyway</title>
+  <title>Find Your Ignition Point â€” She Builds Anyway</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -212,7 +212,7 @@
     </div>
     <p class="brand-label">She Builds Anyway</p>
     <h1>Find Your Ignition Point</h1>
-    <p class="subtitle">6 questions · less than 2 minutes</p>
+    <p class="subtitle">6 questions Â· less than 2 minutes</p>
   </div>
 
   <div class="card" id="quiz-card">
@@ -221,7 +221,7 @@
     <p class="question-label" id="question-label"></p>
     <h2 id="question-text"></h2>
     <div class="answers" id="answers"></div>
-    <button class="next-btn" id="next-btn" onclick="handleNext()">Next question →</button>
+    <button class="next-btn" id="next-btn" onclick="handleNext()">Next question â†’</button>
   </div>
 
   <div class="result-card" id="result-card">
@@ -235,7 +235,7 @@
     <button class="retake-btn" onclick="restart()">Retake the quiz</button>
   </div>
 
-  <p class="footer">SHE BUILDS ANYWAY · FREE TO JOIN · ALWAYS</p>
+  <p class="footer">SHE BUILDS ANYWAY Â· FREE TO JOIN Â· ALWAYS</p>
 </div>
 
 <script>
@@ -281,7 +281,7 @@
       question: "When you hear the word AI, what's your gut reaction?",
       answers: [
         { text: "It sounds complicated but I'm willing to try if it saves me time.", value: "A" },
-        { text: "I feel behind — like everyone already knows this except me.", value: "B" },
+        { text: "I feel behind â€” like everyone already knows this except me.", value: "B" },
         { text: "Mix of both. Intimidated and curious at the same time.", value: "BOTH" },
       ]
     },
@@ -299,19 +299,19 @@
   const results = {
     A: {
       title: "Ignition Point 1:\nStolen Hours",
-      body: "You're building in the margins of a full life. After bedtime. In school pickup lines. In the 45 minutes you carved out of thin air.\n\nThis path was made for you. Faith is going to show you how to turn those stolen hours into something real — no perfect timing required, no massive blocks of free time. Just you, a plan, and the time you already have.",
+      body: "You're building in the margins of a full life. After bedtime. In school pickup lines. In the 45 minutes you carved out of thin air.\n\nThis path was made for you. Faith is going to show you how to turn those stolen hours into something real â€” no perfect timing required, no massive blocks of free time. Just you, a plan, and the time you already have.",
       signature: '"The 45 minutes you have is enough to start."',
       flames: 1
     },
     B: {
       title: "Ignition Point 2:\nReclaimed Hours",
-      body: "You've spent years showing up for everyone else. Now it's your turn. The door isn't closed — it's wide open. And you just walked through it.\n\nSylvie is going to walk you through this and show you that your experience, your wisdom, and your story are exactly the ingredients you need to build something beautiful.",
+      body: "You've spent years showing up for everyone else. Now it's your turn. The door isn't closed â€” it's wide open. And you just walked through it.\n\nSylvie is going to walk you through this and show you that your experience, your wisdom, and your story are exactly the ingredients you need to build something beautiful.",
       signature: '"The door is wide open. And you just walked through it."',
       flames: 1
     },
     BOTH: {
       title: "Both paths are yours.",
-      body: "You're carrying both wounds — no time and wondering if it's too late. That means you belong in both classrooms.\n\nStart wherever feels right today. Faith and Sylvie are both here for you, and so is every FireStarter in this community. Same destination. Two doors. One room.\n\nWelcome to the room.",
+      body: "You're carrying both wounds â€” no time and wondering if it's too late. That means you belong in both classrooms.\n\nStart wherever feels right today. Faith and Sylvie are both here for you, and so is every FireStarter in this community. Same destination. Two doors. One room.\n\nWelcome to the room.",
       signature: '"Same destination. Two doors. One room. Welcome to the room."',
       flames: 3
     }
@@ -353,7 +353,7 @@
     buildProgressBars();
 
     const nextBtn = document.getElementById('next-btn');
-    nextBtn.textContent = current + 1 === questions.length ? 'Show my path →' : 'Next question →';
+    nextBtn.textContent = current + 1 === questions.length ? 'Show my path â†’' : 'Next question â†’';
     nextBtn.className = 'next-btn';
     selected = null;
   }
@@ -424,3 +424,4 @@
 </script>
 </body>
 </html>
+

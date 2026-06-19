@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stolen Hours Mapper — She Builds Anyway</title>
+<title>Stolen Hours Mapper â€” She Builds Anyway</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -73,7 +74,7 @@
   </div>
 
   <div class="card">
-    <p class="section-label">Step 1 — tap every pocket that exists in your week</p>
+    <p class="section-label">Step 1 â€” tap every pocket that exists in your week</p>
     <div class="pocket-grid" id="pocketGrid">
       <div class="pocket-card" data-id="afterbedtime" onclick="togglePocket(this)">
         <i class="ti ti-moon pocket-icon" aria-hidden="true"></i>
@@ -167,7 +168,7 @@
   </div>
 
   <div class="card">
-    <p class="section-label">Step 2 — how many days a week does each pocket happen?</p>
+    <p class="section-label">Step 2 â€” how many days a week does each pocket happen?</p>
     <div id="daysSection"><p class="empty-state">Tap some pockets above to get started.</p></div>
   </div>
 
@@ -189,12 +190,12 @@
     </div>
     <a href="https://www.skool.com/she-builds-anyway" class="cta-btn" id="shareBtn" style="display:none;">
       <i class="ti ti-flame" aria-hidden="true"></i>
-      Join She Builds Anyway — it's free
+      Join She Builds Anyway â€” it's free
     </a>
   </div>
 
   <div class="footer">
-    <p>Built for FireStarters everywhere. <a href="https://www.skool.com/she-builds-anyway">She Builds Anyway</a> — Free to join. Always.</p>
+    <p>Built for FireStarters everywhere. <a href="https://www.skool.com/she-builds-anyway">She Builds Anyway</a> â€” Free to join. Always.</p>
   </div>
 
 </div>
@@ -272,15 +273,16 @@ function updateStats() {
     body.textContent = totalHours + ' hours a week in stolen moments. That\'s enough to write content, learn a tool, and start building something real.';
   } else if (totalHours < 6) {
     title.textContent = 'This is a real building schedule.';
-    body.textContent = totalHours + ' hours a week. In stolen hours. You are not behind. You are building — right now, in the cracks of a full life.';
+    body.textContent = totalHours + ' hours a week. In stolen hours. You are not behind. You are building â€” right now, in the cracks of a full life.';
   } else {
     title.textContent = 'You have more stolen hours than most people have free time.';
     body.textContent = totalHours + ' hours a week. That is not scraps. That is a real online business waiting to be built. Let\'s go.';
   }
 
   const list = document.getElementById('pocketList');
-  list.innerHTML = ids.map(id => `<li><i class="ti ti-flame" aria-hidden="true"></i>${pockets[id].name} — ${pockets[id].mins} min x ${days[id]||5} days = <strong style="color:#E89B8A;">${pockets[id].mins*(days[id]||5)} min</strong></li>`).join('');
+  list.innerHTML = ids.map(id => `<li><i class="ti ti-flame" aria-hidden="true"></i>${pockets[id].name} â€” ${pockets[id].mins} min x ${days[id]||5} days = <strong style="color:#E89B8A;">${pockets[id].mins*(days[id]||5)} min</strong></li>`).join('');
 }
 </script>
 </body>
 </html>
+

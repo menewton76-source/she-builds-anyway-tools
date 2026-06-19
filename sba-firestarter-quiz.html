@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Your FireStarter Type | She Builds Anyway</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,7 +85,7 @@ body::before {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ════ INTRO ════ */
+/* â•â•â•â• INTRO â•â•â•â• */
 .intro {
   text-align: center;
   padding: 48px 20px;
@@ -140,7 +141,7 @@ body::before {
   margin-top: 18px;
 }
 
-/* ════ BUTTONS ════ */
+/* â•â•â•â• BUTTONS â•â•â•â• */
 .btn {
   appearance: none;
   border: none;
@@ -199,7 +200,7 @@ body::before {
   transform: translateY(-1px);
 }
 
-/* ════ QUIZ ════ */
+/* â•â•â•â• QUIZ â•â•â•â• */
 .progress-wrap { margin-bottom: 26px; }
 
 .progress-top {
@@ -316,7 +317,7 @@ body::before {
 @keyframes inRight  { from { opacity:0; transform:translateX(26px);  } to { opacity:1; transform:translateX(0); } }
 @keyframes inLeft   { from { opacity:0; transform:translateX(-26px); } to { opacity:1; transform:translateX(0); } }
 
-/* ════ RESULT ════ */
+/* â•â•â•â• RESULT â•â•â•â• */
 .result-wrap { text-align: center; }
 
 .result-reveal { animation: resultReveal 0.85s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -430,7 +431,7 @@ body::before {
   margin-bottom: 16px;
 }
 
-/* Member card — preview */
+/* Member card â€” preview */
 .member-card {
   width: 300px;
   height: 300px;
@@ -624,7 +625,7 @@ const QUESTIONS = [
       { text: "Early bird before the house wakes up",              pts: 4 },
       { text: "Stolen minutes wherever I can find them",           pts: 3 },
       { text: "Lunch break escape in the car",                     pts: 2 },
-      { text: "Honestly whenever — I haven't found my time yet", pts: 1 }
+      { text: "Honestly whenever â€” I haven't found my time yet", pts: 1 }
     ]
   },
   {
@@ -688,7 +689,7 @@ const RESULTS = [
     range: [11, 13],
     type: "The Kindle",
     short: "Kindle",
-    desc: "She's started. Stopped. Started again. Every time she comes back she's a little further along than before. She doesn't quit — she just takes breaks.",
+    desc: "She's started. Stopped. Started again. Every time she comes back she's a little further along than before. She doesn't quit â€” she just takes breaks.",
     truth: "You didn't give up. You took a breath. There's a difference."
   },
   {
@@ -830,7 +831,7 @@ function showResultScreen() {
       '<p class="r-desc">' + result.desc + '</p>' +
       '<div class="truth-block">' +
         '<p class="truth-label">Your FireStarter Truth</p>' +
-        '<p class="truth-text">“' + result.truth + '”</p>' +
+        '<p class="truth-text">â€œ' + result.truth + 'â€</p>' +
       '</div>' +
 
       '<div class="name-row">' +
@@ -847,7 +848,7 @@ function showResultScreen() {
             '<p class="mc-name" id="mc-name">FireStarter</p>' +
             '<p class="mc-you-are">You are</p>' +
             '<p class="mc-type">' + result.type + '</p>' +
-            '<p class="mc-truth">“' + result.truth + '”</p>' +
+            '<p class="mc-truth">â€œ' + result.truth + 'â€</p>' +
             '<p class="mc-url">skool.com/she-builds-anyway</p>' +
           '</div>' +
         '</div>' +
@@ -937,7 +938,7 @@ function buildExportHTML(name) {
       '<p style="font-family:Nunito,sans-serif;font-size:20px;font-weight:600;color:rgba(253,250,243,0.78);margin-bottom:6px;">' + safe + '</p>' +
       '<p style="font-family:\'Playfair Display\',Georgia,serif;font-size:16px;color:rgba(253,250,243,0.52);margin-bottom:6px;">You are</p>' +
       '<p style="font-family:\'Playfair Display\',Georgia,serif;font-size:66px;font-weight:900;color:#FDFAF3;line-height:1.05;margin-bottom:26px;">' + result.type + '</p>' +
-      '<p style="font-family:\'Playfair Display\',Georgia,serif;font-style:italic;font-size:17px;color:#FDFAF3;line-height:1.72;margin-bottom:26px;padding:0 12px;">“' + result.truth + '”</p>' +
+      '<p style="font-family:\'Playfair Display\',Georgia,serif;font-style:italic;font-size:17px;color:#FDFAF3;line-height:1.72;margin-bottom:26px;padding:0 12px;">â€œ' + result.truth + 'â€</p>' +
       '<p style="font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#3B7A9A;">skool.com/she-builds-anyway</p>' +
     '</div>' +
   '</div>';
@@ -951,3 +952,4 @@ function escHtml(str) {
 </script>
 </body>
 </html>
+
